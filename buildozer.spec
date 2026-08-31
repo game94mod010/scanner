@@ -11,8 +11,6 @@ fullscreen = 0
 android.permissions = INTERNET
 android.api = 33
 android.min_api = 21
-android.ndk = 25b
-p4a.branch = master
 
 [buildozer]
 log_level = 2
