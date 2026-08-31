@@ -22,21 +22,24 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Install Dependencies
+      - name: Install System Dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y git zip unzip openjdk-17-jdk autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
           pip install --upgrade pip
           pip install --upgrade cython==0.29.36 buildozer
 
-      - name: Force Fix Build-Tools and Accept Licenses
+      - name: Manual SDK & NDK Prep (Stops Buildozer from failing)
         run: |
-          mkdir -p ~/.android
-          touch ~/.android/repositories.cfg
-          # نصب ابزار خط فرمان برای جلوگیری از خطای لایسنس و aidl
-          mkdir -p $HOME/.buildozer/android/platform/android-sdk/licenses
-          echo "24333f8a63b6825ea9c5514f83c2829b004d1fb8" > $HOME/.buildozer/android/platform/android-sdk/licenses/android-sdk-license
-          echo "84831b9409646a918e30573bab4c9c91346d8abd" >> $HOME/.buildozer/android/platform/android-sdk/licenses/android-sdk-license
+          ANDROID_HOME=$HOME/.buildozer/android/platform/android-sdk
+          mkdir -p $ANDROID_HOME/licenses
+          mkdir -p $HOME/.android
+          touch $HOME/.android/repositories.cfg
+          
+          # تایید لایسنس‌ها برای جلوگیری از ارور بیلد-تولز
+          echo "24333f8a63b6825ea9c5514f83c2829b004d1fb8" > $ANDROID_HOME/licenses/android-sdk-license
+          echo "84831b9409646a918e30573bab4c9c91346d8abd" >> $ANDROID_HOME/licenses/android-sdk-license
+          echo "d56f5187479451eabf01fb78af6dfcb131a6481e" >> $ANDROID_HOME/licenses/android-sdk-license
 
       - name: Build APK
         env:
