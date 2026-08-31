@@ -29,6 +29,18 @@ jobs:
           pip install --upgrade pip
           pip install --upgrade cython==0.29.36 buildozer
 
+      - name: Accept Android SDK licenses & Force Tools
+        run: |
+          ANDROID_HOME=$HOME/.buildozer/android/platform/android-sdk
+          mkdir -p $ANDROID_HOME/licenses
+          mkdir -p $HOME/.android
+          touch $HOME/.android/repositories.cfg
+          
+          # نوشتن لایسنس‌های رسمی اندروید برای جلوگیری از گیر کردن روی y/N
+          echo "24333f8a63b6825ea9c5514f83c2829b004d1fb8" > $ANDROID_HOME/licenses/android-sdk-license
+          echo "84831b9409646a918e30573bab4c9c91346d8abd" >> $ANDROID_HOME/licenses/android-sdk-license
+          echo "d56f5187479451eabf01fb78af6dfcb131a6481e" >> $ANDROID_HOME/licenses/android-sdk-license
+
       - name: Build APK
         env:
           USE_CONTAINER: 0
