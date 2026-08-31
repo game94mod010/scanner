@@ -1,36 +1,24 @@
-[app]
+name: Build Android APK
 
-# Title of your application
-title = AghaKocholo Scanner
+on:
+  push:
+    branches: [ main ]
 
-# Package name
-package.name = aghakocholoscanner
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-# Package domain (needed for android packaging)
-package.domain = org.aghakocholo
+      - name: Build APK
+        uses: ArtemSBulgakov/buildozer-action@v1
+        id: buildozer
+        with:
+          command: buildozer -v android debug
 
-# Source files where the include_exts is located
-source.dir = .
-
-# Source files to include
-source.include_exts = py,png,jpg,kv,atlas
-
-# List of applications requirements
-requirements = python3,kivy,requests
-
-# Supported orientations
-orientation = portrait
-
-# Indicate whether the application should be fullscreen or not
-fullscreen = 0
-
-# Android specific
-android.permissions = INTERNET
-android.api = 33
-android.ndk = 25b
-android.archs = arm64-v8a
-android.use_docker = 0
-
-[buildozer]
-log_level = 2
-warn_on_root = 1
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: package
+          path: bin/*.apk
