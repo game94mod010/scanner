@@ -6,14 +6,20 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Set up Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'adopt'
+        java-version: '17'
+
     - name: Build with Buildozer
-      uses: kivy/buildozer-action@master
+      uses: ArtemSBulgakov/buildozer-action@v1
       with:
         command: buildozer -v android debug
 
