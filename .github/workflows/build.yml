@@ -11,41 +11,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Build with Buildozer
+        uses: ArtemSBulgakov/buildozer-action@v1
         with:
-          python-version: '3.10'
-
-      - name: Set up Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-
-      - name: Install Buildozer and Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y git zip unzip openjdk-17-jdk autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
-          pip install --upgrade pip
-          pip install --upgrade cython==0.29.36 buildozer
-
-      - name: Accept Android SDK licenses automatically
-        run: |
-          ANDROID_HOME=$HOME/.buildozer/android/platform/android-sdk
-          mkdir -p $HOME/.android
-          touch $HOME/.android/repositories.cfg
-          # دانلود و نصب دستی کامپوننت‌های پایه برای جلوگیری از ارور لایسنس
-          git clone https://github.com/android/sdk-manager-templates.git /tmp/sdk || true
-          
-          # تایید اجباری تمام لایسنس‌ها با ایجاد پوشه licenses
-          mkdir -p $ANDROID_HOME/licenses
-          echo "24333f8a63b6825ea9c5514f83c2829b004d1fb8" > $ANDROID_HOME/licenses/android-sdk-license
-          echo "84831b9409646a918e30573bab4c9c91346d8abd" >> $ANDROID_HOME/licenses/android-sdk-license
-          echo "d56f5187479451eabf01fb78af6dfcb131a6481e" >> $ANDROID_HOME/licenses/android-sdk-license
-
-      - name: Build APK with Buildozer
-        run: |
-          buildozer -v android debug
+          command: buildozer -v android debug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
