@@ -29,6 +29,10 @@ jobs:
           pip install --upgrade pip
           pip install --upgrade cython==0.29.36 buildozer
 
+      - name: Pre-install Android SDK components (Fixes Aidl error)
+        run: |
+          buildozer android update || true
+
       - name: Build APK with Buildozer
         run: |
           buildozer -v android debug
