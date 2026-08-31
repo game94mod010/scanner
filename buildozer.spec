@@ -9,7 +9,8 @@ requirements = python3,kivy,requests
 orientation = portrait
 fullscreen = 0
 android.permissions = INTERNET
-android.api = 33
+android.api = 31
+android.min_api = 21
 android.ndk = 25b
 android.archs = arm64-v8a
 
