@@ -1,16 +1,36 @@
 [app]
 
-# (str) Title of your application
+# Title of your application
 title = AghaKocholo Scanner
 
-# (str) Package name
+# Package name
 package.name = aghakocholoscanner
 
-# (str) Package domain (needed for android packaging)
+# Package domain (needed for android packaging)
 package.domain = org.aghakocholo
 
-# (str) Source files where the include_exts is located
+# Source files where the include_exts is located
 source.dir = .
 
-# (list) Source files to include (let it empty to include all files)
+# Source files to include
 source.include_exts = py,png,jpg,kv,atlas
+
+# List of applications requirements
+requirements = python3,kivy,requests
+
+# Supported orientations
+orientation = portrait
+
+# Indicate whether the application should be fullscreen or not
+fullscreen = 0
+
+# Android specific
+android.permissions = INTERNET
+android.api = 33
+android.ndk = 25b
+android.archs = arm64-v8a
+android.use_docker = 0
+
+[buildozer]
+log_level = 2
+warn_on_root = 1
