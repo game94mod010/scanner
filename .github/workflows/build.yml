@@ -29,23 +29,10 @@ jobs:
           pip install --upgrade pip
           pip install --upgrade cython==0.29.36 buildozer
 
-      - name: Install Android SDK Manually (Fixes sdkmanager error)
-        run: |
-          export ANDROID_HOME=$HOME/.buildozer/android/platform/android-sdk
-          mkdir -p $ANDROID_HOME/cmdline-tools
-          cd /tmp
-          wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O cmdtools.zip
-          unzip -q cmdtools.zip
-          mkdir -p $ANDROID_HOME/cmdline-tools/latest
-          mv cmdline-tools/* $ANDROID_HOME/cmdline-tools/latest/
-          
-          # قبول لایسنس‌ها و نصب ابزارهای مورد نیاز بیلدوزر
-          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.2"
-
       - name: Build APK
         env:
           USE_CONTAINER: 0
+          PACKAGES_PATH: ${{ github.workspace }}/.buildozer
         run: |
           buildozer -v android debug
 
